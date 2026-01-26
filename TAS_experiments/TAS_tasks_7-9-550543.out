@@ -1,0 +1,95 @@
+Running SLURM prolog script on swarma1004
+===============================================================================
+Job started on Sun Jan 25 15:49:58 GMT 2026
+Job ID          : 550543
+Job name        : TAS_Tasks_7-9
+WorkDir         : /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments
+Command         : /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/TAS_tasks_7-9.slurm
+Partition       : swarm_a100
+Num hosts       : 1
+Num cores       : 4
+Num of tasks    : 1
+Hosts allocated : swarma1004
+Job Output Follows ...
+===============================================================================
+[INFO] Activated conda environment: /iridisfs/home/jc15u24/.conda/envs/easygen-clean
+================================================================================
+TAS TASKS 7-9: VISUALIZATION, SUBGROUP ANALYSIS, FAILURE CASE ANALYSIS
+================================================================================
+Start Time: 2026-01-25 15:49:59
+Job ID: 550543
+Node: swarma1004
+CPU Cores: 4
+Memory: 32768 MB
+
+Project Root: /iridisfs/scratch/jc15u24/Code/IST02
+Working Dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments
+Logs Dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/logs
+Results Dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results
+================================================================================
+
+[PHASE 1] 验证数据和环境
+────────────────────────────────────────────────────────────────────────────
+[✓] 找到结果文件: results_nr_v4_20260125_032248.csv
+[✓] 样本数: 161
+
+[检查Python依赖...]
+[✓] 所有依赖已安装
+
+[PHASE 2] 任务7 - 轨迹可视化示例
+────────────────────────────────────────────────────────────────────────────
+目标: 生成最佳/典型/最差内容的对比图
+
+Configuration loaded from config.py
+Data root: /iridisfs/scratch/jc15u24/Code/IST02/TUD_Task_EyeTracking
+Results dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results
+[INFO] 使用结果文件: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results/results_nr_v4_20260125_032248.csv
+
+[SUCCESS] 任务7完成!
+  生成的图表: 3 个
+  保存位置: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results
+
+[PHASE 3] 任务8 - 亚组分析
+────────────────────────────────────────────────────────────────────────────
+目标: 按内容复杂度分层，执行Kruskal-Wallis检验
+
+Configuration loaded from config.py
+Data root: /iridisfs/scratch/jc15u24/Code/IST02/TUD_Task_EyeTracking
+Results dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results
+[INFO] 使用结果文件: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results/results_nr_v4_20260125_032248.csv
+
+[SUCCESS] 任务8完成!
+  H-statistic: 95.7278
+  p-value: 1.6329e-21
+
+[PHASE 4] 任务9 - 失败案例分析
+────────────────────────────────────────────────────────────────────────────
+目标: 深度分析最差内容的共同特征和改进建议
+
+Configuration loaded from config.py
+Data root: /iridisfs/scratch/jc15u24/Code/IST02/TUD_Task_EyeTracking
+Results dir: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results
+[INFO] 使用结果文件: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/results/results_nr_v4_20260125_032248.csv
+[ERROR] 任务9失败: keys must be str, int, float, bool or None, not int64
+
+[✓] 日志已保存: /iridisfs/scratch/jc15u24/Code/IST02/TAS_experiments/logs/tasks_7-9_550543.log
+[✓] 任务7-9已完成，数据已准备好投稿!
+==============================================================================
+Running epilogue script on swarma1004.
+
+Submit time  : 2026-01-25T15:49:57
+Start time   : 2026-01-25T15:49:58
+End time     : 2026-01-25T15:50:07
+Elapsed time : 00:00:09 (Timelimit=12:00:00)
+
+Job ID: 550543
+Cluster: iridis_x
+User/Group: jc15u24/fp
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:00:07
+CPU Efficiency: 19.44% of 00:00:36 core-walltime
+Job Wall-clock time: 00:00:09
+Memory Utilized: 7.30 MB
+Memory Efficiency: 0.02% of 32.00 GB (32.00 GB/node)

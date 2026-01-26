@@ -1,0 +1,4 @@
+Method vs FreeLook,Mean Diff,Cohen's d,t-stat,p-value,Significance,Improvement %
+Artifact vs FreeLook,-0.7348,-6.4931,-60.8473,0.0000,***,-86.58%
+Mixture vs FreeLook,-0.0665,-0.8704,-20.0960,0.0000,***,-7.84%
+TAS vs FreeLook,-0.0384,-0.4370,-6.0753,0.0000,***,-4.53%

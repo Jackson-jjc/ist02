@@ -1,0 +1,483 @@
+================================================================================
+TAS EXPERIMENTS - COMPREHENSIVE RESULTS SUMMARY
+================================================================================
+
+EXPERIMENT 1: RQ1 - Task Shift Analysis
+--------------------------------------------------------------------------------
+
+Compression Level 10:
+  CC:  0.8639 ± 0.0135
+  JSD: 0.2935 ± 0.0092
+
+Compression Level 11:
+  CC:  0.8545 ± 0.0164
+  JSD: 0.2859 ± 0.0108
+
+Compression Level 12:
+  CC:  0.8139 ± 0.0250
+  JSD: 0.3194 ± 0.0143
+
+Compression Level 13:
+  CC:  0.8545 ± 0.0334
+  JSD: 0.2949 ± 0.0130
+
+Compression Level 14:
+  CC:  0.7468 ± 0.0336
+  JSD: 0.3158 ± 0.0117
+
+Compression Level 15:
+  CC:  0.8217 ± 0.0258
+  JSD: 0.3384 ± 0.0288
+
+Compression Level 16:
+  CC:  0.8498 ± 0.0253
+  JSD: 0.3228 ± 0.0107
+
+Compression Level 17:
+  CC:  0.8390 ± 0.0137
+  JSD: 0.3237 ± 0.0187
+
+Compression Level 18:
+  CC:  0.8766 ± 0.0130
+  JSD: 0.2946 ± 0.0120
+
+Compression Level 19:
+  CC:  0.8652 ± 0.0211
+  JSD: 0.3193 ± 0.0148
+
+Compression Level 20:
+  CC:  0.8903 ± 0.0028
+  JSD: 0.2781 ± 0.0095
+
+Compression Level 21:
+  CC:  0.8977 ± 0.0123
+  JSD: 0.2795 ± 0.0215
+
+Compression Level 22:
+  CC:  0.8478 ± 0.0271
+  JSD: 0.2804 ± 0.0101
+
+Compression Level 23:
+  CC:  0.8145 ± 0.0244
+  JSD: 0.3050 ± 0.0052
+
+Compression Level 24:
+  CC:  0.8094 ± 0.0294
+  JSD: 0.2993 ± 0.0072
+
+Compression Level 25:
+  CC:  0.8902 ± nan
+  JSD: 0.3030 ± nan
+
+Compression Level 26:
+  CC:  0.8090 ± 0.0030
+  JSD: 0.2706 ± 0.0023
+
+Compression Level 27:
+  CC:  0.7806 ± 0.0479
+  JSD: 0.3177 ± 0.0062
+
+Compression Level 28:
+  CC:  0.8078 ± nan
+  JSD: 0.2626 ± nan
+
+Compression Level 29:
+  CC:  0.7245 ± nan
+  JSD: 0.3043 ± nan
+
+Compression Level 30:
+  CC:  0.7853 ± 0.1254
+  JSD: 0.3199 ± 0.0189
+
+Compression Level 31:
+  CC:  0.9321 ± nan
+  JSD: 0.2618 ± nan
+
+Compression Level 32:
+  CC:  0.8971 ± 0.0342
+  JSD: 0.3214 ± 0.0346
+
+Compression Level 33:
+  CC:  0.8745 ± nan
+  JSD: 0.3065 ± nan
+
+Compression Level 34:
+  CC:  0.8445 ± nan
+  JSD: 0.2773 ± nan
+
+Compression Level 35:
+  CC:  0.7985 ± nan
+  JSD: 0.3238 ± nan
+
+Compression Level 36:
+  CC:  0.7915 ± nan
+  JSD: 0.2974 ± nan
+
+Compression Level 38:
+  CC:  0.9255 ± nan
+  JSD: 0.2869 ± nan
+
+Compression Level 39:
+  CC:  0.7788 ± nan
+  JSD: 0.2722 ± nan
+
+Compression Level 40:
+  CC:  0.6702 ± nan
+  JSD: 0.2718 ± nan
+
+Compression Level 42:
+  CC:  0.8868 ± 0.0157
+  JSD: 0.2682 ± 0.0093
+
+Compression Level 43:
+  CC:  0.8542 ± 0.0051
+  JSD: 0.3183 ± 0.0276
+
+Compression Level 44:
+  CC:  0.8613 ± 0.0321
+  JSD: 0.3247 ± 0.0195
+
+Compression Level 47:
+  CC:  0.8646 ± 0.0085
+  JSD: 0.3216 ± 0.0396
+
+Compression Level 48:
+  CC:  0.8705 ± nan
+  JSD: 0.3389 ± nan
+
+Compression Level 49:
+  CC:  0.7755 ± nan
+  JSD: 0.3020 ± nan
+
+Compression Level 50:
+  CC:  0.8626 ± nan
+  JSD: 0.3158 ± nan
+
+Compression Level 54:
+  CC:  0.8112 ± nan
+  JSD: 0.3208 ± nan
+
+Compression Level 60:
+  CC:  0.8932 ± 0.0462
+  JSD: 0.2972 ± 0.0225
+
+Compression Level 61:
+  CC:  0.8233 ± nan
+  JSD: 0.3039 ± nan
+
+Compression Level 62:
+  CC:  0.8602 ± nan
+  JSD: 0.3014 ± nan
+
+Compression Level 63:
+  CC:  0.8130 ± 0.0311
+  JSD: 0.2821 ± 0.0468
+
+Compression Level 64:
+  CC:  0.8552 ± 0.0231
+  JSD: 0.3023 ± 0.0175
+
+Compression Level 66:
+  CC:  0.9377 ± nan
+  JSD: 0.2741 ± nan
+
+Compression Level 67:
+  CC:  0.8081 ± nan
+  JSD: 0.3316 ± nan
+
+Compression Level 68:
+  CC:  0.8635 ± 0.0013
+  JSD: 0.2956 ± 0.0228
+
+Compression Level 71:
+  CC:  0.8501 ± 0.0051
+  JSD: 0.2718 ± 0.0109
+
+Compression Level 72:
+  CC:  0.9040 ± 0.0093
+  JSD: 0.2914 ± 0.0229
+
+Compression Level 73:
+  CC:  0.9053 ± nan
+  JSD: 0.2602 ± nan
+
+Compression Level 77:
+  CC:  0.8216 ± 0.0704
+  JSD: 0.3028 ± 0.0213
+
+Compression Level 78:
+  CC:  0.9113 ± nan
+  JSD: 0.2374 ± nan
+
+Compression Level 79:
+  CC:  0.9250 ± nan
+  JSD: 0.2391 ± nan
+
+Compression Level 80:
+  CC:  0.8658 ± 0.0239
+  JSD: 0.2605 ± 0.0065
+
+Compression Level 82:
+  CC:  0.8281 ± 0.0607
+  JSD: 0.3023 ± 0.0368
+
+Compression Level 84:
+  CC:  0.9078 ± nan
+  JSD: 0.3046 ± nan
+
+Compression Level 85:
+  CC:  0.8393 ± 0.0681
+  JSD: 0.3257 ± 0.0295
+
+Compression Level 86:
+  CC:  0.9054 ± 0.0091
+  JSD: 0.2634 ± 0.0185
+
+Compression Level 87:
+  CC:  0.8843 ± 0.0367
+  JSD: 0.2709 ± 0.0184
+
+Compression Level 90:
+  CC:  0.8802 ± nan
+  JSD: 0.2546 ± nan
+
+EXPERIMENT 3: RQ3 - Practical Value
+--------------------------------------------------------------------------------
+
+Compression Level 10:
+  d_bg_freelook: 0.6981 ± 0.0005
+  d_bg_scoring: 0.7789 ± 0.0102
+
+Compression Level 11:
+  d_bg_freelook: 0.7083 ± 0.0050
+  d_bg_scoring: 0.7881 ± 0.0094
+
+Compression Level 12:
+  d_bg_freelook: 0.6946 ± 0.0040
+  d_bg_scoring: 0.7521 ± 0.0273
+
+Compression Level 13:
+  d_bg_freelook: 0.7395 ± 0.0307
+  d_bg_scoring: 0.7615 ± 0.0506
+
+Compression Level 14:
+  d_bg_freelook: 0.7219 ± 0.0240
+  d_bg_scoring: 0.7820 ± 0.0195
+
+Compression Level 15:
+  d_bg_freelook: 0.7094 ± 0.0114
+  d_bg_scoring: 0.7973 ± 0.0186
+
+Compression Level 16:
+  d_bg_freelook: 0.7119 ± 0.0320
+  d_bg_scoring: 0.7714 ± 0.0268
+
+Compression Level 17:
+  d_bg_freelook: 0.7207 ± 0.0117
+  d_bg_scoring: 0.8207 ± 0.0169
+
+Compression Level 18:
+  d_bg_freelook: 0.7134 ± 0.0083
+  d_bg_scoring: 0.7975 ± 0.0187
+
+Compression Level 19:
+  d_bg_freelook: 0.6994 ± 0.0106
+  d_bg_scoring: 0.7864 ± 0.0190
+
+Compression Level 20:
+  d_bg_freelook: 0.7342 ± 0.0231
+  d_bg_scoring: 0.8019 ± 0.0108
+
+Compression Level 21:
+  d_bg_freelook: 0.7113 ± 0.0390
+  d_bg_scoring: 0.7562 ± 0.0265
+
+Compression Level 22:
+  d_bg_freelook: 0.7056 ± 0.0152
+  d_bg_scoring: 0.7866 ± 0.0107
+
+Compression Level 23:
+  d_bg_freelook: 0.7318 ± 0.0174
+  d_bg_scoring: 0.8039 ± 0.0222
+
+Compression Level 24:
+  d_bg_freelook: 0.7301 ± 0.0236
+  d_bg_scoring: 0.8179 ± 0.0178
+
+Compression Level 25:
+  d_bg_freelook: 0.7217 ± nan
+  d_bg_scoring: 0.8490 ± nan
+
+Compression Level 26:
+  d_bg_freelook: 0.7302 ± 0.0203
+  d_bg_scoring: 0.7785 ± 0.0247
+
+Compression Level 27:
+  d_bg_freelook: 0.7346 ± 0.0033
+  d_bg_scoring: 0.7652 ± 0.0295
+
+Compression Level 28:
+  d_bg_freelook: 0.7690 ± nan
+  d_bg_scoring: 0.8304 ± nan
+
+Compression Level 29:
+  d_bg_freelook: 0.6976 ± nan
+  d_bg_scoring: 0.7960 ± nan
+
+Compression Level 30:
+  d_bg_freelook: 0.7262 ± 0.0061
+  d_bg_scoring: 0.7922 ± 0.0189
+
+Compression Level 31:
+  d_bg_freelook: 0.6110 ± nan
+  d_bg_scoring: 0.6538 ± nan
+
+Compression Level 32:
+  d_bg_freelook: 0.6372 ± 0.0438
+  d_bg_scoring: 0.8055 ± 0.0116
+
+Compression Level 33:
+  d_bg_freelook: 0.6455 ± nan
+  d_bg_scoring: 0.7609 ± nan
+
+Compression Level 34:
+  d_bg_freelook: 0.6529 ± nan
+  d_bg_scoring: 0.7737 ± nan
+
+Compression Level 35:
+  d_bg_freelook: 0.7485 ± nan
+  d_bg_scoring: 0.7591 ± nan
+
+Compression Level 36:
+  d_bg_freelook: 0.7634 ± nan
+  d_bg_scoring: 0.8626 ± nan
+
+Compression Level 38:
+  d_bg_freelook: 0.6779 ± nan
+  d_bg_scoring: 0.8108 ± nan
+
+Compression Level 39:
+  d_bg_freelook: 0.7896 ± nan
+  d_bg_scoring: 0.7876 ± nan
+
+Compression Level 40:
+  d_bg_freelook: 0.7688 ± nan
+  d_bg_scoring: 0.8179 ± nan
+
+Compression Level 42:
+  d_bg_freelook: 0.6856 ± 0.0020
+  d_bg_scoring: 0.8115 ± 0.0256
+
+Compression Level 43:
+  d_bg_freelook: 0.7464 ± 0.0215
+  d_bg_scoring: 0.8586 ± 0.0273
+
+Compression Level 44:
+  d_bg_freelook: 0.7367 ± 0.0003
+  d_bg_scoring: 0.7842 ± 0.0782
+
+Compression Level 47:
+  d_bg_freelook: 0.7098 ± 0.0684
+  d_bg_scoring: 0.8344 ± 0.0330
+
+Compression Level 48:
+  d_bg_freelook: 0.7223 ± nan
+  d_bg_scoring: 0.8538 ± nan
+
+Compression Level 49:
+  d_bg_freelook: 0.8081 ± nan
+  d_bg_scoring: 0.8283 ± nan
+
+Compression Level 50:
+  d_bg_freelook: 0.6628 ± nan
+  d_bg_scoring: 0.8220 ± nan
+
+Compression Level 54:
+  d_bg_freelook: 0.6707 ± nan
+  d_bg_scoring: 0.8275 ± nan
+
+Compression Level 60:
+  d_bg_freelook: 0.6995 ± 0.0196
+  d_bg_scoring: 0.7921 ± 0.0024
+
+Compression Level 61:
+  d_bg_freelook: 0.7979 ± nan
+  d_bg_scoring: 0.8052 ± nan
+
+Compression Level 62:
+  d_bg_freelook: 0.7708 ± nan
+  d_bg_scoring: 0.8088 ± nan
+
+Compression Level 63:
+  d_bg_freelook: 0.7222 ± 0.0569
+  d_bg_scoring: 0.7915 ± 0.0053
+
+Compression Level 64:
+  d_bg_freelook: 0.7389 ± 0.0175
+  d_bg_scoring: 0.8308 ± 0.0202
+
+Compression Level 66:
+  d_bg_freelook: 0.6805 ± nan
+  d_bg_scoring: 0.7073 ± nan
+
+Compression Level 67:
+  d_bg_freelook: 0.6908 ± nan
+  d_bg_scoring: 0.7608 ± nan
+
+Compression Level 68:
+  d_bg_freelook: 0.7335 ± 0.0116
+  d_bg_scoring: 0.7842 ± 0.0510
+
+Compression Level 71:
+  d_bg_freelook: 0.7267 ± 0.0023
+  d_bg_scoring: 0.7701 ± 0.0019
+
+Compression Level 72:
+  d_bg_freelook: 0.7343 ± 0.0211
+  d_bg_scoring: 0.8423 ± 0.0133
+
+Compression Level 73:
+  d_bg_freelook: 0.7459 ± nan
+  d_bg_scoring: 0.7790 ± nan
+
+Compression Level 77:
+  d_bg_freelook: 0.7926 ± 0.0118
+  d_bg_scoring: 0.8354 ± 0.0092
+
+Compression Level 78:
+  d_bg_freelook: 0.7724 ± nan
+  d_bg_scoring: 0.8257 ± nan
+
+Compression Level 79:
+  d_bg_freelook: 0.7256 ± nan
+  d_bg_scoring: 0.7599 ± nan
+
+Compression Level 80:
+  d_bg_freelook: 0.7471 ± 0.0178
+  d_bg_scoring: 0.8078 ± 0.0075
+
+Compression Level 82:
+  d_bg_freelook: 0.7447 ± 0.0664
+  d_bg_scoring: 0.8538 ± 0.0109
+
+Compression Level 84:
+  d_bg_freelook: 0.7363 ± nan
+  d_bg_scoring: 0.8081 ± nan
+
+Compression Level 85:
+  d_bg_freelook: 0.6904 ± 0.0243
+  d_bg_scoring: 0.8210 ± 0.0250
+
+Compression Level 86:
+  d_bg_freelook: 0.7244 ± 0.0111
+  d_bg_scoring: 0.7757 ± 0.0489
+
+Compression Level 87:
+  d_bg_freelook: 0.7260 ± 0.0128
+  d_bg_scoring: 0.7932 ± 0.0191
+
+Compression Level 90:
+  d_bg_freelook: 0.6845 ± nan
+  d_bg_scoring: 0.7776 ± nan
+
+================================================================================
