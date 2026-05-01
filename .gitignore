@@ -53,13 +53,7 @@ logs/
 *.out
 *.slurm
 
-# Datasets (public datasets, only include links in README)
-TUD_Task_EyeTracking/
-TUD_LIVE_EyeTracking/
-TUD_Interactions/
-
 # Experiment results and temporary files
-results/
 experiment_log.txt
 pipeline_execution_*.log
 
