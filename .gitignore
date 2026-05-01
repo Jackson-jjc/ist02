@@ -48,6 +48,45 @@ Thumbs.db
 logs/
 *.log
 
+# SLURM and job outputs
+*.err
+*.out
+*.slurm
+
+# Datasets (public datasets, only include links in README)
+TUD_Task_EyeTracking/
+TUD_LIVE_EyeTracking/
+TUD_Interactions/
+
+# Experiment results and temporary files
+results/
+experiment_log.txt
+pipeline_execution_*.log
+
+# Documentation and status files (project-specific, not code)
+*.txt
+EXECUTION_*.txt
+EXECUTION_*.md
+FINAL_*.txt
+FINAL_*.md
+*_SUMMARY.txt
+*_SUMMARY.md
+*_REPORT.md
+*_STATUS.txt
+*_CHECKLIST.md
+PROBLEM_*.md
+FIX_*.md
+IMPROVEMENT_*.md
+QUICK_*.md
+README_IMPROVED*.md
+RESULTS_*.md
+INDEX*.md
+MODULES*.md
+PROJECT_*.md
+*_ASSESSMENT.md
+
+# VS Code cache
+.vscode/
 # Large data files (optional - uncomment if needed)
 # *.npy
 # *.npz

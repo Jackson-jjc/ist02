@@ -30,6 +30,15 @@ class ArtifactMapGenerator:
         # Simplified CSF model
         csf = 2.6 * (0.0192 + 0.114 * freq) * np.exp(-(0.114 * freq) ** 1.1)
         return csf / np.max(csf)  # Normalize to [0, 1]
+
+    @staticmethod
+    def _normalize_unit_range(arr: np.ndarray) -> np.ndarray:
+        """Normalize a non-negative map to [0, 1] without changing its shape."""
+        arr = np.maximum(arr, 0).astype(np.float32)
+        max_val = float(np.max(arr))
+        if max_val > 0:
+            arr = arr / max_val
+        return np.clip(arr, 0, 1)
     
     def _compute_ssim_multiscale(self, img_ref: np.ndarray, 
                                  img_dist: np.ndarray,
@@ -332,34 +341,53 @@ class ArtifactMapGenerator:
         Returns:
             NR artifact map normalized to [0, 1]
         """
-        artifact_nr = np.zeros_like(img_distorted[:, :, 0] if len(img_distorted.shape) == 3 
-                                   else img_distorted, dtype=np.float32)
-        
-        # Component 1: Improved blockiness detection (uses DCT)
+        components = self.compute_nr_artifact_components(
+            img_distorted,
+            blockiness_weight=blockiness_weight,
+            dct_weight=dct_weight,
+            ringing_weight=ringing_weight,
+        )
+
+        artifact_nr = np.zeros_like(components['combined'])
         if use_blockiness:
-            blockiness = self._compute_improved_blockiness(img_distorted)
-            artifact_nr += blockiness_weight * blockiness
-            logger.debug(f"NR-Artifact blockiness: mean={np.mean(blockiness):.4f}")
-        
-        # Component 2: DCT-based high-frequency analysis
+            artifact_nr += blockiness_weight * components['blockiness']
+            logger.debug(f"NR-Artifact blockiness: mean={np.mean(components['blockiness']):.4f}")
         if use_dct:
-            dct_artifact = self._compute_dct_artifact(img_distorted)
-            artifact_nr += dct_weight * dct_artifact
-            logger.debug(f"NR-Artifact DCT: mean={np.mean(dct_artifact):.4f}")
-        
-        # Component 3: Ringing detection
+            artifact_nr += dct_weight * components['dct']
+            logger.debug(f"NR-Artifact DCT: mean={np.mean(components['dct']):.4f}")
         if use_ringing:
-            ringing = self.compute_ringing_map(img_distorted, use_luminance=True)
-            artifact_nr += ringing_weight * ringing
-            logger.debug(f"NR-Artifact ringing: mean={np.mean(ringing):.4f}")
-        
-        # Normalize to [0, 1]
-        if artifact_nr.max() > 0:
-            artifact_nr = artifact_nr / artifact_nr.max()
-        
-        artifact_nr = np.clip(artifact_nr, 0, 1)
-        
-        return artifact_nr
+            artifact_nr += ringing_weight * components['ringing']
+            logger.debug(f"NR-Artifact ringing: mean={np.mean(components['ringing']):.4f}")
+
+        return self._normalize_unit_range(artifact_nr)
+
+    def compute_nr_artifact_components(self, img_distorted: np.ndarray,
+                                      blockiness_weight: float = 0.4,
+                                      dct_weight: float = 0.4,
+                                      ringing_weight: float = 0.2) -> dict:
+        """
+        Compute the three NR artifact sub-components and their weighted fusion.
+
+        Returns:
+            Dict with normalized component maps in [0, 1]:
+                blockiness, dct, ringing, combined
+        """
+        blockiness = self._normalize_unit_range(self._compute_improved_blockiness(img_distorted))
+        dct_artifact = self._normalize_unit_range(self._compute_dct_artifact(img_distorted))
+        ringing = self._normalize_unit_range(self.compute_ringing_map(img_distorted, use_luminance=True))
+
+        combined = (
+            blockiness_weight * blockiness +
+            dct_weight * dct_artifact +
+            ringing_weight * ringing
+        )
+
+        return {
+            'blockiness': blockiness,
+            'dct': dct_artifact,
+            'ringing': ringing,
+            'combined': self._normalize_unit_range(combined),
+        }
     
     def _compute_improved_blockiness(self, img_distorted: np.ndarray,
                                     use_luminance: bool = True,
