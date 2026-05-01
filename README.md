@@ -25,32 +25,35 @@ IST02/
 
 ## Datasets
 
-This study uses the **TUD eye-tracking image quality datasets**, which are included in this repository:
+This study uses the **TUD eye-tracking image quality datasets**, which are publicly available at:
 
-### Dataset Contents:
+- **Eye-Tracking Release 1**: https://ii.tudelft.nl/iqlab/eye_tracking_1.html
+- **Eye-Tracking Release 2**: https://ii.tudelft.nl/iqlab/eye_tracking_2.html
+- **Interactions Dataset**: https://ii.tudelft.nl/iqlab/interactions.html
 
-- **TUD_Task_EyeTracking/** (64MB) - Eye-Tracking Release 2
-  - `OriginalContent/` - Reference images
-  - `TestImages/` - JPEG compressed images
-  - `SaliencyFreeLook/` - Free-viewing saliency maps
-  - `SaliencyScoring/` - Task-based saliency maps
+### Dataset Structure:
 
-- **TUD_LIVE_EyeTracking/** (41MB) - LIVE dataset
-  - `SaliencyMaps/` - Eye-tracking saliency maps
-  - `TestImages/` - Test images
+To run the experiments, download the datasets from the links above and organize them in the project directory:
 
-- **TUD_Interactions/** (86MB) - Interactions dataset
-  - `Saliency Maps/` - Saliency maps for interactive viewing
-  - `images/` - Test images with various distortions
+```
+SC-TAS/
+├── TUD_Task_EyeTracking/        # Eye-Tracking Release 2
+│   ├── OriginalContent/         # Reference images
+│   ├── TestImages/              # JPEG compressed images
+│   ├── SaliencyFreeLook/         # Free-viewing saliency maps
+│   └── SaliencyScoring/          # Task-based saliency maps
+│
+├── TUD_LIVE_EyeTracking/         # LIVE dataset
+│   ├── TUD_LIVE_EyeTracking/
+│   │   ├── SaliencyMaps/
+│   │   └── TestImages/
+│
+└── TUD_Interactions/             # Interactions dataset
+    ├── images/
+    └── Saliency Maps/
+```
 
-### Dataset Sources:
-
-These datasets are originally from the TUD Image Quality Lab and are publicly available at:
-- https://ii.tudelft.nl/iqlab/eye_tracking_1.html
-- https://ii.tudelft.nl/iqlab/eye_tracking_2.html
-- https://ii.tudelft.nl/iqlab/interactions.html
-
-The datasets in this repository are cloned from the original public sources. Please refer to the TUD Image Quality Lab for dataset licensing and access conditions.
+Please refer to the TUD Image Quality Lab for dataset licensing and access conditions.
 
 ## Quick Start
 
