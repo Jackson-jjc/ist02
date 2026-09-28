@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the article below."
+title: "SC-TAS: Stability-Constrained Task-Adaptive Saliency"
+type: software
+authors:
+  - family-names: Chen
+    given-names: Jiajun
+  - family-names: Zhang
+    given-names: Ya
+  - family-names: Li
+    given-names: Hongxin
+repository-code: "https://github.com/Jackson-jjc/ist02"
+url: "https://doi.org/10.1007/s00371-026-04693-7"
+preferred-citation:
+  type: article
+  title: "SC-TAS: stability-constrained task-adaptive saliency for artifact-aware attention transfer in JPEG-compressed images"
+  authors:
+    - family-names: Chen
+      given-names: Jiajun
+    - family-names: Zhang
+      given-names: Ya
+    - family-names: Li
+      given-names: Hongxin
+  journal: "The Visual Computer"
+  year: 2026
+  volume: 42
+  doi: "10.1007/s00371-026-04693-7"

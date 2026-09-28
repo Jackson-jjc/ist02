@@ -1,0 +1,24 @@
+name: smoke-test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  data-free-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install core dependencies
+        run: python -m pip install -r TAS_experiments/requirements-core.txt
+      - name: Compile Python sources
+        run: python -m compileall -q TAS_experiments verify_reference_results.py
+      - name: Run data-free smoke test
+        working-directory: TAS_experiments
+        run: python smoke_test.py
+      - name: Check archived reference results
+        run: python verify_reference_results.py

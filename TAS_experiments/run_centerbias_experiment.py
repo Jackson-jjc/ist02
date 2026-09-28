@@ -17,7 +17,6 @@ Conditions evaluated:
   4. Uniform Prior:  Flat/uniform map                     → SC-TAS NR
   5. Baselines:      Each prior alone (no fusion)
 
-Author: Automated pipeline for CGI 2026
 """
 
 import sys
@@ -43,32 +42,10 @@ from config import config
 from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
 from metrics import SaliencyMetrics
+from sctas import SCTAS
 
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'centerbias_sensitivity'
+RESULTS_DIR = config.RESULTS_DIR / 'centerbias_sensitivity'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-
-
-class SCTAS:
-    """SC-TAS: P_hat = N(alpha * P_F + beta * A), with CC-threshold constraint."""
-    def __init__(self, alpha=1.0, beta=0.3, tau=0.83, eta=0.9):
-        self.alpha = alpha
-        self.beta = beta
-        self.tau = tau
-        self.eta = eta
-
-    def predict(self, p_free, a_map):
-        alpha, beta = self.alpha, self.beta
-        eps = 1e-12
-        for _ in range(50):
-            raw = alpha * p_free + beta * a_map
-            raw = np.maximum(raw, 0)
-            total = np.sum(raw) + eps
-            p_hat = raw / total
-            cc = np.corrcoef(p_hat.flatten(), p_free.flatten())[0, 1]
-            if np.isnan(cc) or cc >= self.tau:
-                break
-            beta *= self.eta
-        return p_hat
 
 
 def normalize_to_prob(m):

@@ -1,0 +1,50 @@
+{
+  "GT Prior alone": {
+    "cc_mean": 0.8487,
+    "cc_std": 0.0647,
+    "jsd_mean": 0.2978,
+    "jsd_std": 0.0347
+  },
+  "GT Prior \u2192 SC-TAS NR": {
+    "cc_mean": 0.8265,
+    "cc_std": 0.0735,
+    "jsd_mean": 0.2811,
+    "jsd_std": 0.0373
+  },
+  "Center-bias alone": {
+    "cc_mean": 0.5773,
+    "cc_std": 0.098,
+    "jsd_mean": 0.2933,
+    "jsd_std": 0.0484
+  },
+  "Center-bias \u2192 SC-TAS": {
+    "cc_mean": 0.5294,
+    "cc_std": 0.0889,
+    "jsd_mean": 0.3076,
+    "jsd_std": 0.0473
+  },
+  "Blurred Prior alone": {
+    "cc_mean": 0.8549,
+    "cc_std": 0.0623,
+    "jsd_mean": 0.2584,
+    "jsd_std": 0.033
+  },
+  "Blurred \u2192 SC-TAS": {
+    "cc_mean": 0.8222,
+    "cc_std": 0.0737,
+    "jsd_mean": 0.2622,
+    "jsd_std": 0.0369
+  },
+  "Uniform alone": {
+    "cc_mean": 0.0,
+    "cc_std": 0.0,
+    "jsd_mean": 0.3786,
+    "jsd_std": 0.0548
+  },
+  "Uniform \u2192 SC-TAS": {
+    "cc_mean": 0.1192,
+    "cc_std": 0.148,
+    "jsd_mean": 0.3786,
+    "jsd_std": 0.0548
+  }
+}

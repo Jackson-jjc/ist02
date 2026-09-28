@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Supplementary Experiments for CGI 2026 Paper Revision
+Supplementary Experiments for the CGI 2026 Paper
 =====================================================
 
-Three additional analyses requested by reviewers:
+Three additional analyses reported with the main experiments:
 
 Stage 1 — Inter-observer ceiling (split-half bootstrap approximation)
     Since only aggregated FDMs (_COMBINED.jpg) are available, the ceiling
@@ -11,7 +11,7 @@ Stage 1 — Inter-observer ceiling (split-half bootstrap approximation)
     100 bootstrap iterations; each randomly splits pixels into two halves
     and computes CC/JSD between the two halves.
 
-Stage 2 — Extended metrics (SIM, AUC-Judd, KL divergence)
+Stage 2 — Extended metrics (SIM, AUC-Top20, KL divergence)
     Adds three standard saliency metrics to the LOCO evaluation on R2.
 
 Stage 3 — Large-β stability-constraint ablation
@@ -21,8 +21,6 @@ Stage 3 — Large-β stability-constraint ablation
 
 All results are saved to results/supplementary/.
 
-Author: Automated pipeline
-Date: 2026-02-21
 """
 
 import sys
@@ -49,9 +47,10 @@ from config import config
 from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
 from metrics import SaliencyMetrics
+from sctas import SCTAS
 
 # ─── Results directory ──────────────────────────────────────────────────────────
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'supplementary'
+RESULTS_DIR = config.RESULTS_DIR / 'supplementary'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 log_file = RESULTS_DIR / 'supplementary.log'
@@ -59,7 +58,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler(log_file, mode='w'),
+        logging.FileHandler(log_file, mode='w', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -67,50 +66,6 @@ logger = logging.getLogger(__name__)
 
 
 # ─── SC-TAS model (same as main script) ────────────────────────────────────────
-class SCTAS:
-    """
-    Stability-Constrained Task-Adaptive Saliency (paper Eq.7).
-    P_hat = N( alpha * P_F + beta * A )
-    With stability constraint: CC(P_hat, P_F) >= tau.
-    """
-    def __init__(self, alpha=1.0, beta=0.3, tau=0.83, eta=0.9):
-        self.alpha = alpha
-        self.beta = beta
-        self.tau = tau
-        self.eta = eta
-
-    def predict(self, p_free: np.ndarray, a_map: np.ndarray) -> np.ndarray:
-        alpha, beta = self.alpha, self.beta
-        eps = 1e-12
-        for _ in range(50):
-            raw = alpha * p_free + beta * a_map
-            raw = np.maximum(raw, 0)
-            total = np.sum(raw) + eps
-            p_hat = raw / total
-            cc = np.corrcoef(p_hat.flatten(), p_free.flatten())[0, 1]
-            if np.isnan(cc) or cc >= self.tau:
-                break
-            beta *= self.eta
-        return p_hat
-
-    def predict_count_shrinks(self, p_free: np.ndarray, a_map: np.ndarray):
-        """Returns (prediction, number_of_shrink_iterations, final_beta)."""
-        alpha, beta = self.alpha, self.beta
-        eps = 1e-12
-        n_shrinks = 0
-        for _ in range(50):
-            raw = alpha * p_free + beta * a_map
-            raw = np.maximum(raw, 0)
-            total = np.sum(raw) + eps
-            p_hat = raw / total
-            cc = np.corrcoef(p_hat.flatten(), p_free.flatten())[0, 1]
-            if np.isnan(cc) or cc >= self.tau:
-                break
-            beta *= self.eta
-            n_shrinks += 1
-        return p_hat, n_shrinks, beta
-
-
 def normalize_to_prob(m: np.ndarray) -> np.ndarray:
     m = np.maximum(m, 0).astype(np.float64)
     s = np.sum(m) + 1e-12
@@ -149,7 +104,12 @@ def kl_divergence(pred: np.ndarray, target: np.ndarray) -> float:
 
 
 def auc_judd(pred: np.ndarray, fixation_map: np.ndarray) -> float:
-    """AUC-Judd: treats fixation_map as binary (top 20% as fixation points)."""
+    """AUC-Top20 using the target's top 20% density as pseudo-fixations.
+
+    The function name is retained for compatibility with the archived output
+    columns. This is not canonical AUC-Judd because point fixation records are
+    not available in the released aggregate FDM data.
+    """
     pred_flat = pred.flatten()
     fix_flat = fixation_map.flatten()
     # Threshold at top 20% of fixation_map
@@ -194,7 +154,7 @@ def bootstrap_ci(values, n_boot=2000, ci=0.95, seed=42):
 def main():
     t0 = time.time()
     logger.info("=" * 80)
-    logger.info("SUPPLEMENTARY EXPERIMENTS — CGI 2026 REVISION")
+    logger.info("SUPPLEMENTARY EXPERIMENTS - CGI 2026")
     logger.info(f"Start: {datetime.now().isoformat()}")
     logger.info("=" * 80)
 
@@ -350,10 +310,10 @@ def main():
     logger.info("  Ceiling results saved.")
 
     # ═════════════════════════════════════════════════════════════════════════
-    # STAGE 2: Extended Metrics (SIM, AUC-Judd, KL)
+    # STAGE 2: Extended Metrics (SIM, AUC-Top20, KL)
     # ═════════════════════════════════════════════════════════════════════════
     logger.info("\n" + "=" * 80)
-    logger.info("STAGE 2: Extended Metrics (SIM, AUC-Judd, KL)")
+    logger.info("STAGE 2: Extended Metrics (SIM, AUC-Top20, KL)")
     logger.info("=" * 80)
 
     # SC-TAS configurations
@@ -595,7 +555,7 @@ def main():
     logger.info(f"\nAll results saved to {RESULTS_DIR}/")
     logger.info(f"Total runtime: {time.time()-t0:.1f} seconds")
     logger.info("=" * 80)
-    logger.info("✓ SUPPLEMENTARY EXPERIMENTS COMPLETED")
+    logger.info("SUPPLEMENTARY EXPERIMENTS COMPLETED")
     logger.info("=" * 80)
 
 

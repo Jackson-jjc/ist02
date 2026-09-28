@@ -1,0 +1,25 @@
+{
+  "test1_fr_nr_spatial_cc": {
+    "mean": 0.9711966928448514,
+    "min": 0.9434121235497639,
+    "n": 160
+  },
+  "test2_within_content_monotonicity": {
+    "nr_energy_mean_rho": 0.875,
+    "nr_energy_n_negative": 0,
+    "fr_energy_mean_rho": 0.9550000000000001,
+    "raw_mae_mean_rho": -1.0,
+    "raw_mae_n_negative": 40
+  },
+  "test3_energy_vs_distortion": {
+    "nr_rho": 0.22616313137231922,
+    "nr_p": 0.0040314736583201664,
+    "fr_rho": 0.1260693777100668,
+    "fr_p": 0.11217180473651721
+  },
+  "test4_boundary_specificity": {
+    "mean_ratio": 1.8513028976563777,
+    "within_content_rho": -1.0,
+    "n_negative": 40
+  }
+}

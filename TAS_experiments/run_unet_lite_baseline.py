@@ -12,8 +12,8 @@ Architecture:
   Bottleneck: Conv(32->64,3)-ReLU, Conv(64->64,3)-ReLU
   Dec-2:  Upsample + cat(skip2) -> Conv(96->32,3)-ReLU, Conv(32->32,3)-ReLU -> 64x64
   Dec-1:  Upsample + cat(skip1) -> Conv(48->16,3)-ReLU, Conv(16->16,3)-ReLU -> 128x128
-  Head:   Conv(16->1,1) + Softplus
-  Total:  ~35K parameters
+  Head:   Conv(16->1,1) + Sigmoid
+  Total:  118,129 trainable parameters
 
 Evaluation protocol (same as Ridge/MLP):
   R2: 40-fold LOCO  (leave-one-content-out)
@@ -44,17 +44,18 @@ from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
 from metrics import SaliencyMetrics
 
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'unet_lite_baseline'
+RESULTS_DIR = config.RESULTS_DIR / 'unet_lite_baseline'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-R1_ROOT = Path('/iridisfs/scratch/jc15u24/Code/IST02/TUD_LIVE_EyeTracking/TUD_LIVE_EyeTracking')
-INT_ROOT = Path('/iridisfs/scratch/jc15u24/Code/IST02/TUD_Interactions')
+R1_ROOT = config.R1_ROOT
+INT_ROOT = config.INT_ROOT
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler(RESULTS_DIR / 'unet_lite.log', mode='w'),
+        logging.FileHandler(
+            RESULTS_DIR / 'unet_lite.log', mode='w', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )

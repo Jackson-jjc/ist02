@@ -12,12 +12,15 @@ Stages:
   3. RQ2-NR: TAS prediction with No-Reference artifact maps (LOCO)
   4. RQ3: Background distraction metric (Dbg)
   5. Mechanism validation: FR vs NR consistency + distortion correlation
-  6. Parameter sensitivity: alpha-beta grid on high-distortion subset
+  6. Diagnostic parameter grid on a high-distortion subset
   7. Statistical analysis: Wilcoxon, Cohen's d, Bootstrap CI, Holm-Bonferroni
-  8. Cross-dataset generalization (R1, INT — zero-shot)
+  8. Content-level best/median/worst analysis
+  9. Stability-threshold diagnostic
 
-Author: Automated pipeline
-Date: 2026-02-21
+The final full-R2 parameter sensitivity and stability stress test reported in
+the paper are implemented in run_ablation_sensitivity_experiments.py. R1/INT
+evaluation is implemented in run_crossdataset_baselines.py.
+
 """
 
 import sys
@@ -43,11 +46,11 @@ sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 from config import config
 from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
-from tas_model import TASModel
 from metrics import SaliencyMetrics
+from sctas import SCTAS
 
 # ─── Logging ────────────────────────────────────────────────────────────────────
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'revised_real'
+RESULTS_DIR = config.RESULTS_DIR / 'revised_real'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 log_file = RESULTS_DIR / 'experiment.log'
@@ -55,7 +58,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler(log_file, mode='w'),
+        logging.FileHandler(log_file, mode='w', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -63,38 +66,6 @@ logger = logging.getLogger(__name__)
 
 
 # ─── SC-TAS: Paper method (Eq.7 of the paper) ──────────────────────────────────
-class SCTAS:
-    """
-    Stability-Constrained Task-Adaptive Saliency (paper Eq.7).
-    P_hat = N( alpha * P_F + beta * A )
-    With stability constraint: CC(P_hat, P_F) >= tau.
-    """
-    def __init__(self, alpha=1.0, beta=0.3, tau=0.83, eta=0.9):
-        self.alpha = alpha
-        self.beta = beta
-        self.tau = tau
-        self.eta = eta
-
-    def predict(self, p_free: np.ndarray, a_map: np.ndarray) -> np.ndarray:
-        """Predict scoring saliency with stability constraint."""
-        alpha, beta = self.alpha, self.beta
-        eps = 1e-12
-
-        for _ in range(50):  # max 50 shrink iterations
-            raw = alpha * p_free + beta * a_map
-            raw = np.maximum(raw, 0)
-            total = np.sum(raw) + eps
-            p_hat = raw / total
-
-            # Check stability constraint
-            cc = np.corrcoef(p_hat.flatten(), p_free.flatten())[0, 1]
-            if np.isnan(cc) or cc >= self.tau:
-                break
-            beta *= self.eta  # shrink beta
-
-        return p_hat
-
-
 # ─── Helper functions ───────────────────────────────────────────────────────────
 def normalize_to_prob(m: np.ndarray) -> np.ndarray:
     """Normalize map to probability distribution."""
@@ -637,7 +608,7 @@ def main():
     logger.info(f"\nAll results saved to {RESULTS_DIR}/")
     logger.info(f"Total runtime: {time.time()-t0:.1f} seconds")
     logger.info("\n" + "=" * 80)
-    logger.info("✓ REVISED EXPERIMENT COMPLETED SUCCESSFULLY")
+    logger.info("REVISED EXPERIMENT COMPLETED SUCCESSFULLY")
     logger.info("=" * 80)
 
 

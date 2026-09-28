@@ -1,0 +1,23 @@
+{
+  "model": "U-Net-lite",
+  "resolution": 128,
+  "n_parameters": 118129,
+  "epochs_max": 100,
+  "patience": 15,
+  "lr": 0.001,
+  "r2_loco": {
+    "cc_mean": 0.8865,
+    "cc_std": 0.0564,
+    "jsd_mean": 0.3732,
+    "jsd_std": 0.0555,
+    "n": 160
+  },
+  "int_zeroshot": {
+    "cc_mean": 0.6851,
+    "cc_std": 0.1019,
+    "jsd_mean": 0.4381,
+    "jsd_std": 0.0724,
+    "n": 54
+  },
+  "elapsed_seconds": 243.3
+}

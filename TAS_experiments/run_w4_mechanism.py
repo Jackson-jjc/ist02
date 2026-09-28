@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 W4 Supplementary Experiment: Artifact Map Mechanism Validation
-Produces formal statistics for paper revision.
+Produces formal statistics for the artifact-mechanism analysis.
 
 Tests:
   1. FR-NR spatial consistency (per-sample Pearson CC)
@@ -9,8 +9,6 @@ Tests:
   3. Artifact energy vs distortion strength (raw |Y_ref-Y_dist|)
   4. Block-boundary vs interior gradient ratio (artifact specificity test)
 
-Author: Automated
-Date: 2026-02-21
 """
 
 import sys, os, json
@@ -28,7 +26,7 @@ from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
 from metrics import SaliencyMetrics
 
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'w4_mechanism'
+RESULTS_DIR = config.RESULTS_DIR / 'w4_mechanism'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 def main():

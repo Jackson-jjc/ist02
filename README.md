@@ -1,67 +1,47 @@
 # SC-TAS: Stability-Constrained Task-Adaptive Saliency
 
-Official code repository for the CGI 2026 paper:
+Official implementation and reproducibility material for the CGI 2026 paper:
 
 > **SC-TAS: Stability-Constrained Task-Adaptive Saliency for Artifact-Aware Attention Transfer in JPEG-Compressed Images**
 >
 > Jiajun Chen, Ya Zhang, and Hongxin Li
 >
-> *The Visual Computer*, 42(11), article 482, 2026
+> *The Visual Computer*, volume 42, article 482, 2026
 >
 > [Springer article](https://link.springer.com/article/10.1007/s00371-026-04693-7) · [DOI](https://doi.org/10.1007/s00371-026-04693-7)
 
-## Overview
+SC-TAS is a training-free method that adapts a free-viewing saliency prior towards image-quality-scoring attention using JPEG artifact evidence. The stability rule limits excessive drift from the prior when the artifact contribution is deliberately increased.
 
-SC-TAS is a training-free framework that adapts a free-viewing saliency prior towards image-quality-scoring attention using JPEG artifact evidence. The stability constraint keeps the free-viewing prior dominant and acts as a safeguard when artifact injection becomes too strong.
-
-The repository contains the experiment code used for the paper, including:
-
-- the main R2 task-shift and SC-TAS experiments;
-- full-reference and no-reference artifact variants;
-- cross-dataset evaluation on R1 and the TUD Interactions dataset;
-- Ridge, MLP, and U-Net-lite learning baselines;
-- component, parameter-sensitivity, stability-stress, and prior-sensitivity analyses; and
-- scripts for generating paper figures and supplementary results.
-
-## Repository Structure
+## What is included
 
 ```text
 .
 ├── README.md
+├── REPRODUCIBILITY.md
+├── CITATION.cff
+├── reference_results/               # Tabular outputs used to check reproduction
 └── TAS_experiments/
-    ├── src/                              # Core implementation
-    ├── requirements.txt                  # Python dependencies
-    ├── run_revised_experiment.py         # Main R2 experiments
-    ├── run_crossdataset_baselines.py     # R1/INT and Ridge/MLP evaluation
-    ├── run_unet_lite_baseline.py         # U-Net-lite baseline
-    ├── run_revision_response_experiments.py
-    │                                     # Ablations, sensitivity, stress test
-    ├── run_supplementary_experiments.py  # Supplementary analyses
-    ├── run_centerbias_experiment.py      # Prior-quality sensitivity
-    └── generate_paper_figures.py         # Figure generation
+    ├── src/                          # SC-TAS, artifact maps, metrics, data loader
+    ├── requirements-core.txt         # Main experiments and learning baselines
+    ├── requirements-unet.txt         # PyTorch for U-Net-lite
+    ├── requirements.txt              # Complete environment
+    ├── validate_setup.py             # Dependency and dataset-layout validator
+    ├── smoke_test.py                 # Data-free implementation check
+    ├── run_revised_experiment.py     # Main R2 evaluation
+    ├── run_crossdataset_baselines.py # R1/INT and Ridge/MLP experiments
+    ├── run_unet_lite_baseline.py     # U-Net-lite LOCO and zero-shot evaluation
+    ├── run_ablation_sensitivity_experiments.py
+    │                                 # Component, sensitivity, stability analyses
+    ├── run_supplementary_experiments.py
+    ├── run_centerbias_experiment.py  # Prior-quality sensitivity
+    └── run_w4_mechanism.py           # Artifact-mechanism analysis
 ```
 
-## Datasets
+The datasets and manuscript source are deliberately not included. Dataset access remains subject to the original providers' conditions.
 
-The datasets are not redistributed in this repository. Download them from the TUD Image Quality Lab and follow their licensing and access conditions:
+## Installation
 
-- [Eye-Tracking Release 1](https://ii.tudelft.nl/iqlab/eye_tracking_1.html)
-- [Eye-Tracking Release 2](https://ii.tudelft.nl/iqlab/eye_tracking_2.html)
-- [Interactions dataset](https://ii.tudelft.nl/iqlab/interactions.html)
-
-For the R2 experiments, arrange the data as follows:
-
-```text
-TUD_Task_EyeTracking/
-├── OriginalContent/
-├── TestImages/
-├── SaliencyFreeLook/
-└── SaliencyScoring/
-```
-
-Release 2 contains 40 source contents and four JPEG-compressed stimuli per source, giving 160 stimuli in total.
-
-## Setup
+Python 3.12 is recommended and is the version used by the automated checks.
 
 ```bash
 git clone https://github.com/Jackson-jjc/ist02.git
@@ -69,56 +49,117 @@ cd ist02/TAS_experiments
 python -m venv .venv
 ```
 
-Activate the environment and install the dependencies:
+Activate the environment:
 
 ```bash
-pip install -r requirements.txt
+# Linux/macOS
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 ```
 
-Before running the experiments, set `DATA_ROOT` in [`TAS_experiments/src/config.py`](TAS_experiments/src/config.py) to the local path of the downloaded R2 dataset. The cross-dataset scripts also require the R1 and Interactions datasets to be available locally.
-
-## Running the Experiments
-
-Run the experiment scripts individually from `TAS_experiments/`:
+Install all dependencies:
 
 ```bash
-# Main R2 analysis
-python run_revised_experiment.py
-
-# Cross-dataset and lightweight supervised baselines
-python run_crossdataset_baselines.py
-
-# U-Net-lite baseline
-python run_unet_lite_baseline.py
-
-# Component ablation, full-R2 sensitivity, and stability stress test
-python run_revision_response_experiments.py
-
-# Extended metrics and supplementary analyses
-python run_supplementary_experiments.py
-
-# Prior-quality / centre-bias sensitivity
-python run_centerbias_experiment.py
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-Outputs are written under `TAS_experiments/results/`. Runtime depends on the selected experiment, hardware, and dataset location.
+For all experiments except U-Net-lite, `requirements-core.txt` is sufficient.
 
-## Main Evaluation Protocol
+## Datasets
 
-- **R2 evaluation:** leave-one-content-out (LOCO), preventing the same source content from appearing in both training and test folds for learned baselines.
-- **Primary metrics:** Pearson correlation coefficient (CC) and Jensen-Shannon divergence (JSD).
-- **Additional metrics:** SIM, KL divergence, AUC-Top20, entropy, centroid shift, and background attention mass.
-- **Cross-dataset evaluation:** zero-shot evaluation on pristine R1 images and the multi-distortion Interactions dataset.
+Obtain the research datasets from their original TUD pages. The provider may
+require a password or contact request before download:
+
+- [Eye-Tracking Release 1](https://ii.tudelft.nl/iqlab/eye_tracking_1.html)
+- [Eye-Tracking Release 2](https://ii.tudelft.nl/iqlab/eye_tracking_2.html)
+- [Interactions dataset](https://ii.tudelft.nl/iqlab/interactions.html)
+
+The default layout beside `TAS_experiments/` is:
+
+```text
+TUD_Task_EyeTracking/                 # R2
+├── OriginalContent/
+├── TestImages/
+├── SaliencyFreeLook/
+└── SaliencyScoring/
+
+TUD_LIVE_EyeTracking/                 # R1 download
+└── TUD_LIVE_EyeTracking/
+    ├── TestImages/
+    └── SaliencyMaps/
+
+TUD_Interactions/
+├── images/
+│   └── originals/
+└── Saliency Maps/
+```
+
+If the datasets are elsewhere, set these environment variables:
+
+```bash
+SCTAS_R2_ROOT=/path/to/TUD_Task_EyeTracking
+SCTAS_R1_ROOT=/path/to/TUD_LIVE_EyeTracking/TUD_LIVE_EyeTracking
+SCTAS_INT_ROOT=/path/to/TUD_Interactions
+SCTAS_RESULTS_ROOT=/path/to/output              # optional
+```
+
+PowerShell example:
+
+```powershell
+$env:SCTAS_R2_ROOT = "D:\data\TUD_Task_EyeTracking"
+$env:SCTAS_R1_ROOT = "D:\data\TUD_LIVE_EyeTracking\TUD_LIVE_EyeTracking"
+$env:SCTAS_INT_ROOT = "D:\data\TUD_Interactions"
+```
+
+Validate the installation before running experiments:
+
+```bash
+python validate_setup.py --datasets all --include-unet
+python smoke_test.py
+```
+
+## Reproducing the paper experiments
+
+Run commands from `TAS_experiments/`.
+
+| Paper analysis | Command | Required data |
+|---|---|---|
+| Main R2 results, RQ1--RQ3, FR/NR SC-TAS | `python run_revised_experiment.py` | R2 |
+| R1 stability, INT zero-shot, Ridge and MLP | `python run_crossdataset_baselines.py` | R1, R2, INT |
+| U-Net-lite LOCO and INT zero-shot | `python run_unet_lite_baseline.py` | R1, R2, INT |
+| Component ablation, full-R2 sensitivity, stability stress test | `python run_ablation_sensitivity_experiments.py` | R2 |
+| Extended metrics and ceiling analyses | `python run_supplementary_experiments.py` | R2 |
+| Free-viewing-prior sensitivity | `python run_centerbias_experiment.py` | R2 |
+| Artifact-map mechanism analysis | `python run_w4_mechanism.py` | R2 |
+
+Outputs are written below `TAS_experiments/results/`, or below `SCTAS_RESULTS_ROOT` when it is set. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the protocol, expected outputs, and interpretation of numerical differences.
+
+## Reference results
+
+The machine-readable tables in [`reference_results/`](reference_results/) are the archived outputs associated with the published analyses. They contain no dataset images or saliency maps. Check their internal consistency with:
+
+```bash
+python verify_reference_results.py
+```
+
+The primary reported values include:
+
+| Setting | CC | JSD |
+|---|---:|---:|
+| R2 free-viewing prior | 0.849 | 0.298 |
+| R2 SC-TAS NR | 0.827 | 0.281 |
+| R2 SC-TAS FR | 0.782 | 0.305 |
+| INT SC-TAS NR | 0.670 | 0.324 |
+| R1 SC-TAS NR stability vs prior | 0.957 | 0.130 |
+
+These values describe different evaluation targets. In particular, the R1 row measures stability relative to the R1 prior, while R2 and INT rows compare predictions with scoring saliency.
+
+The deterministic SC-TAS implementation was re-run on the complete R2 dataset during the public-release audit. Its aggregate outputs matched the archived tables to within `7.75e-7`, and its per-stimulus outputs to within `3.14e-5`. The trained Ridge, MLP, and U-Net-lite baselines can vary with numerical-library, scikit-learn, PyTorch, CUDA, and hardware versions; the archived tables record the values used in the paper. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the precise comparison policy.
 
 ## Citation
-
-If you use this repository, please cite the paper.
-
-Springer citation:
-
-> Chen, J., Zhang, Y. & Li, H. SC-TAS: stability-constrained task-adaptive saliency for artifact-aware attention transfer in JPEG-compressed images. *The Visual Computer* **42**, 482 (2026). https://doi.org/10.1007/s00371-026-04693-7
-
-BibTeX:
 
 ```bibtex
 @article{Chen2026SCTAS,
@@ -127,18 +168,11 @@ BibTeX:
   journal = {The Visual Computer},
   year    = {2026},
   volume  = {42},
-  number  = {11},
   doi     = {10.1007/s00371-026-04693-7},
   url     = {https://doi.org/10.1007/s00371-026-04693-7}
 }
 ```
 
-## Notes on Reproducibility
+## Licence and data terms
 
-- Dataset files are not included and must be obtained from the original providers.
-- The current configuration contains a machine-specific default dataset path; update `DATA_ROOT` before execution.
-- Some legacy documentation files refer to launcher or validation scripts that are not included in the public repository. Use the existing experiment scripts listed above.
-
-## Licence
-
-Dataset use is governed by the original TUD Image Quality Lab terms. No separate software licence file is currently included in this repository.
+The TUD datasets are governed by the original providers' access and usage conditions. No dataset files are redistributed here. A separate software licence has not yet been specified for this repository; contact the authors before redistribution or incorporation into another project.

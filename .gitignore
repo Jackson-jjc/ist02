@@ -1,94 +1,46 @@
-# Python
+# Python bytecode and test caches
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-pip-log.txt
-pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# Virtual environments
+# Environments and local configuration
+.venv/
 venv/
-ENV/
 env/
-.venv
+.env
 
-# IDEs
+# Editors and operating systems
 .vscode/
 .idea/
 *.swp
-*.swo
 *~
-
-# OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Logs
-logs/
+# Runtime outputs
+TAS_experiments/results/
+TAS_experiments/logs/
 *.log
-
-# SLURM and job outputs
-*.err
 *.out
-*.slurm
+*.err
 
-# Datasets (public datasets, download from TUD links in README)
+# Datasets: obtain these from the original TUD providers
 TUD_Task_EyeTracking/
 TUD_LIVE_EyeTracking/
 TUD_Interactions/
 
-# Experiment results and temporary files
-results/
-experiment_log.txt
-pipeline_execution_*.log
+# Manuscripts and submission files are intentionally not part of this code repo
+paper/
+*.tex
+*.bib
+*.pdf
+*.docx
 
-# Documentation and status files (project-specific, not code)
-*.txt
-EXECUTION_*.txt
-EXECUTION_*.md
-FINAL_*.txt
-FINAL_*.md
-*_SUMMARY.txt
-*_SUMMARY.md
-*_REPORT.md
-*_STATUS.txt
-*_CHECKLIST.md
-PROBLEM_*.md
-FIX_*.md
-IMPROVEMENT_*.md
-QUICK_*.md
-README_IMPROVED*.md
-RESULTS_*.md
-INDEX*.md
-MODULES*.md
-PROJECT_*.md
-*_ASSESSMENT.md
-
-# VS Code cache
-.vscode/
-# Large data files (optional - uncomment if needed)
-# *.npy
-# *.npz
-# *.pkl
-
+# Local model/checkpoint artefacts
+*.pt
+*.pth
+*.pkl
+*.npy
+*.npz

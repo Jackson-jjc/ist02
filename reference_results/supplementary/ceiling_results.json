@@ -1,0 +1,55 @@
+{
+  "noise_injection": [
+    {
+      "sigma_rel": 0.05,
+      "cc_mean": 0.9976870459864219,
+      "cc_std": 0.00011593517541042437,
+      "jsd_mean": 0.06448678448969752,
+      "jsd_std": 0.01720850142946034,
+      "sim_mean": 0.963784742061316,
+      "sim_std": 0.007152445918305545,
+      "n_pairs": 16000
+    },
+    {
+      "sigma_rel": 0.1,
+      "cc_mean": 0.9911318883773256,
+      "cc_std": 0.000554471973963841,
+      "jsd_mean": 0.10956252290114606,
+      "jsd_std": 0.02505044764929212,
+      "sim_mean": 0.9299096337265801,
+      "sim_std": 0.012956383405399084,
+      "n_pairs": 16000
+    },
+    {
+      "sigma_rel": 0.15,
+      "cc_mean": 0.9808439588140668,
+      "cc_std": 0.0013617239178316878,
+      "jsd_mean": 0.14756724282594483,
+      "jsd_std": 0.030056559255326017,
+      "sim_mean": 0.8981602480092574,
+      "sim_std": 0.017653176988211207,
+      "n_pairs": 16000
+    },
+    {
+      "sigma_rel": 0.2,
+      "cc_mean": 0.9672985679059593,
+      "cc_std": 0.0025157388180674376,
+      "jsd_mean": 0.1807335591626726,
+      "jsd_std": 0.03335808114504068,
+      "sim_mean": 0.8684153559363735,
+      "sim_std": 0.02142571390512696,
+      "n_pairs": 16000
+    }
+  ],
+  "spatial_split_half": {
+    "method": "spatial_split_half",
+    "cc_mean": 0.989678250692533,
+    "cc_std": 0.0021948076734039047,
+    "jsd_mean": 0.040087269791648096,
+    "jsd_std": 0.0010150546179801341,
+    "sim_mean": 0.9547786849032268,
+    "sim_std": 0.0011810641675633726,
+    "n_pairs": 16000
+  },
+  "interpretation": "The noise-injection method with \u03c3_rel=0.10 and the spatial split-half method provide complementary upper-bound estimates. The spatial method is more conservative (lower CC) because it removes half the signal."
+}

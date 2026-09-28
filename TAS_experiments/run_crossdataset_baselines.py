@@ -48,19 +48,20 @@ from config import config
 from data_loader import DataLoader
 from artifact_maps import ArtifactMapGenerator
 from metrics import SaliencyMetrics
+from sctas import SCTAS
 
-RESULTS_DIR = PROJECT_ROOT / 'results' / 'crossdataset_baselines'
+RESULTS_DIR = config.RESULTS_DIR / 'crossdataset_baselines'
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-R1_ROOT = Path('/iridisfs/scratch/jc15u24/Code/IST02/TUD_LIVE_EyeTracking/TUD_LIVE_EyeTracking')
-INT_ROOT = Path('/iridisfs/scratch/jc15u24/Code/IST02/TUD_Interactions')
+R1_ROOT = config.R1_ROOT
+INT_ROOT = config.INT_ROOT
 
 log_file = RESULTS_DIR / 'experiment.log'
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler(log_file, mode='w'),
+        logging.FileHandler(log_file, mode='w', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -71,29 +72,6 @@ LB_RESIZE = 64  # Downsample resolution for learning baselines
 
 
 # ─── SC-TAS (Eq.7 of the paper) ────────────────────────────────────────────────
-class SCTAS:
-    """Stability-Constrained Task-Adaptive Saliency."""
-    def __init__(self, alpha=1.0, beta=0.3, tau=0.83, eta=0.9):
-        self.alpha = alpha
-        self.beta = beta
-        self.tau = tau
-        self.eta = eta
-
-    def predict(self, p_free, a_map):
-        alpha, beta = self.alpha, self.beta
-        eps = 1e-12
-        for _ in range(50):
-            raw = alpha * p_free + beta * a_map
-            raw = np.maximum(raw, 0)
-            total = np.sum(raw) + eps
-            p_hat = raw / total
-            cc = np.corrcoef(p_hat.flatten(), p_free.flatten())[0, 1]
-            if np.isnan(cc) or cc >= self.tau:
-                break
-            beta *= self.eta
-        return p_hat
-
-
 # ─── Helpers ────────────────────────────────────────────────────────────────────
 def normalize_to_prob(m):
     m = np.maximum(m, 0).astype(np.float64)
@@ -794,7 +772,7 @@ def stage5_summary_and_stats(df_r1, df_int, df_lb_r2, df_lb_int):
     g1_rows = []
 
     # Load existing R2 main results for comparison
-    r2_path = PROJECT_ROOT / 'results' / 'revised_real' / 'rq2_prediction_all.csv'
+    r2_path = config.RESULTS_DIR / 'revised_real' / 'rq2_prediction_all.csv'
     df_r2 = None
     if r2_path.exists():
         df_r2 = pd.read_csv(r2_path)
@@ -995,7 +973,7 @@ def main():
         if not path.exists():
             logger.error(f"Dataset directory not found: {name} → {path}")
             sys.exit(1)
-    logger.info("All dataset directories verified ✓")
+    logger.info("All dataset directories verified")
 
     # ── Initialize ──
     loader = DataLoader(config)
@@ -1015,7 +993,7 @@ def main():
     logger.info(f"  R2:  {len(contents)} contents × 4 levels = {len(contents)*4} stimuli")
     logger.info(f"  R1:  {len(r1_data)} pristine images")
     logger.info(f"  INT: {len(int_data)} distorted stimuli")
-    logger.info(f"  R1↔INT content overlap: {sorted(set(d['content'] for d in int_data) & set(r1_priors.keys()))}")
+    logger.info(f"  R1/INT content overlap: {sorted(set(d['content'] for d in int_data) & set(r1_priors.keys()))}")
 
     # ── Run experiment stages ──
     df_r1 = stage1_r1_stability(r1_data, sctas_nr)
@@ -1107,7 +1085,7 @@ def main():
         logger.info(f"  {f.name}")
     logger.info(f"\nTotal runtime: {runtime:.1f}s ({runtime/60:.1f} min)")
     logger.info("\n" + "=" * 80)
-    logger.info("✓ CROSS-DATASET + LEARNING BASELINES EXPERIMENT COMPLETED")
+    logger.info("CROSS-DATASET + LEARNING BASELINES EXPERIMENT COMPLETED")
     logger.info("=" * 80)
 
 

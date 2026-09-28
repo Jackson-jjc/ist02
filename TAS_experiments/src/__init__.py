@@ -1,23 +1,17 @@
-"""
-TAS Experiments Package
-Task-Adaptive Saliency for Image Quality Assessment
-"""
+"""Core utilities for the public SC-TAS experiments."""
 
 __version__ = '1.0.0'
-__author__ = 'Research Team'
-
-from . import config
+from .config import Config, config
 from .data_loader import DataLoader
 from .artifact_maps import ArtifactMapGenerator
-from .tas_model import TASModel
 from .metrics import SaliencyMetrics
-from .visualizer import ResultsVisualizer
+from .sctas import SCTAS
 
 __all__ = [
+    'Config',
     'config',
     'DataLoader',
     'ArtifactMapGenerator',
-    'TASModel',
     'SaliencyMetrics',
-    'ResultsVisualizer',
+    'SCTAS',
 ]
