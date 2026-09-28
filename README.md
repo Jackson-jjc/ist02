@@ -1,142 +1,144 @@
-# IST02: Task-Adaptive Saliency Analysis
+# SC-TAS: Stability-Constrained Task-Adaptive Saliency
 
-A comprehensive study on image quality assessment using task-adaptive saliency metrics based on eye-tracking data from the TUD datasets.
+Official code repository for the CGI 2026 paper:
 
-## Project Overview
+> **SC-TAS: Stability-Constrained Task-Adaptive Saliency for Artifact-Aware Attention Transfer in JPEG-Compressed Images**
+>
+> Jiajun Chen, Ya Zhang, and Hongxin Li
+>
+> *The Visual Computer*, 42(11), article 482, 2026
+>
+> [Springer article](https://link.springer.com/article/10.1007/s00371-026-04693-7) · [DOI](https://doi.org/10.1007/s00371-026-04693-7)
 
-This project investigates how visual attention patterns (saliency) vary across different tasks and image compression levels, providing insights into task-dependent image quality metrics.
+## Overview
 
-## Directory Structure
+SC-TAS is a training-free framework that adapts a free-viewing saliency prior towards image-quality-scoring attention using JPEG artifact evidence. The stability constraint keeps the free-viewing prior dominant and acts as a safeguard when artifact injection becomes too strong.
 
-```
-IST02/
-├── TAS_experiments/          # Task-Adaptive Saliency experiments
-│   ├── src/                  # Python source code
-│   ├── requirements.txt       # Python dependencies
-│   ├── run_*.py              # Experiment scripts
-│   ├── submit_*.slurm        # SLURM batch submission scripts
-│   └── README.md             # Detailed experiment documentation
-│
-├── paper/                    # Paper and LaTeX documents
-│   └── TUD_final/           # Final paper materials
-│
-└── README.md                 # This file
+The repository contains the experiment code used for the paper, including:
+
+- the main R2 task-shift and SC-TAS experiments;
+- full-reference and no-reference artifact variants;
+- cross-dataset evaluation on R1 and the TUD Interactions dataset;
+- Ridge, MLP, and U-Net-lite learning baselines;
+- component, parameter-sensitivity, stability-stress, and prior-sensitivity analyses; and
+- scripts for generating paper figures and supplementary results.
+
+## Repository Structure
+
+```text
+.
+├── README.md
+└── TAS_experiments/
+    ├── src/                              # Core implementation
+    ├── requirements.txt                  # Python dependencies
+    ├── run_revised_experiment.py         # Main R2 experiments
+    ├── run_crossdataset_baselines.py     # R1/INT and Ridge/MLP evaluation
+    ├── run_unet_lite_baseline.py         # U-Net-lite baseline
+    ├── run_revision_response_experiments.py
+    │                                     # Ablations, sensitivity, stress test
+    ├── run_supplementary_experiments.py  # Supplementary analyses
+    ├── run_centerbias_experiment.py      # Prior-quality sensitivity
+    └── generate_paper_figures.py         # Figure generation
 ```
 
 ## Datasets
 
-This study uses the **TUD eye-tracking image quality datasets**, which are publicly available at:
+The datasets are not redistributed in this repository. Download them from the TUD Image Quality Lab and follow their licensing and access conditions:
 
-- **Eye-Tracking Release 1**: https://ii.tudelft.nl/iqlab/eye_tracking_1.html
-- **Eye-Tracking Release 2**: https://ii.tudelft.nl/iqlab/eye_tracking_2.html
-- **Interactions Dataset**: https://ii.tudelft.nl/iqlab/interactions.html
+- [Eye-Tracking Release 1](https://ii.tudelft.nl/iqlab/eye_tracking_1.html)
+- [Eye-Tracking Release 2](https://ii.tudelft.nl/iqlab/eye_tracking_2.html)
+- [Interactions dataset](https://ii.tudelft.nl/iqlab/interactions.html)
 
-### Dataset Structure:
+For the R2 experiments, arrange the data as follows:
 
-To run the experiments, download the datasets from the links above and organize them in the project directory:
-
-```
-SC-TAS/
-├── TUD_Task_EyeTracking/        # Eye-Tracking Release 2
-│   ├── OriginalContent/         # Reference images
-│   ├── TestImages/              # JPEG compressed images
-│   ├── SaliencyFreeLook/         # Free-viewing saliency maps
-│   └── SaliencyScoring/          # Task-based saliency maps
-│
-├── TUD_LIVE_EyeTracking/         # LIVE dataset
-│   ├── TUD_LIVE_EyeTracking/
-│   │   ├── SaliencyMaps/
-│   │   └── TestImages/
-│
-└── TUD_Interactions/             # Interactions dataset
-    ├── images/
-    └── Saliency Maps/
+```text
+TUD_Task_EyeTracking/
+├── OriginalContent/
+├── TestImages/
+├── SaliencyFreeLook/
+└── SaliencyScoring/
 ```
 
-Please refer to the TUD Image Quality Lab for dataset licensing and access conditions.
+Release 2 contains 40 source contents and four JPEG-compressed stimuli per source, giving 160 stimuli in total.
 
-## Quick Start
-
-### 1. Install Dependencies
+## Setup
 
 ```bash
-cd TAS_experiments
+git clone https://github.com/Jackson-jjc/ist02.git
+cd ist02/TAS_experiments
+python -m venv .venv
+```
+
+Activate the environment and install the dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Setup Datasets
+Before running the experiments, set `DATA_ROOT` in [`TAS_experiments/src/config.py`](TAS_experiments/src/config.py) to the local path of the downloaded R2 dataset. The cross-dataset scripts also require the R1 and Interactions datasets to be available locally.
 
-Download the datasets from the links above and organize them as shown in the structure above.
+## Running the Experiments
 
-### 3. Run Experiments
+Run the experiment scripts individually from `TAS_experiments/`:
 
 ```bash
-# Option 1: Run all experiments locally (requires 4-8 hours)
-python run_all_experiments.py
+# Main R2 analysis
+python run_revised_experiment.py
 
-# Option 2: Submit to SLURM cluster
-sbatch submit_experiments.slurm
+# Cross-dataset and lightweight supervised baselines
+python run_crossdataset_baselines.py
+
+# U-Net-lite baseline
+python run_unet_lite_baseline.py
+
+# Component ablation, full-R2 sensitivity, and stability stress test
+python run_revision_response_experiments.py
+
+# Extended metrics and supplementary analyses
+python run_supplementary_experiments.py
+
+# Prior-quality / centre-bias sensitivity
+python run_centerbias_experiment.py
 ```
 
-## Experiment Details
+Outputs are written under `TAS_experiments/results/`. Runtime depends on the selected experiment, hardware, and dataset location.
 
-The project includes three main research questions:
+## Main Evaluation Protocol
 
-### RQ1: Task Shift Analysis
-How do visual attention patterns change across different tasks when images are compressed?
-
-### RQ2: Saliency Prediction
-Can task-based saliency be predicted from free-viewing attention and compression artifacts?
-
-### RQ3: Practical Application
-What is the practical value of task-adaptive metrics for image quality assessment?
-
-## Project Structure
-
-### Core Modules (`TAS_experiments/src/`)
-
-- `config.py` - Configuration management
-- `data_loader.py` - Data loading and preprocessing
-- `tas_model.py` - Task-Adaptive Saliency model
-- `artifact_maps.py` - Compression artifact detection
-- `metrics.py` - Saliency evaluation metrics
-- `visualizer.py` - Visualization utilities
-
-### Experiment Scripts
-
-- `run_comprehensive_experiment.py` - Full experimental pipeline
-- `run_revised_experiment.py` - Revised analysis
-- `generate_paper_figures.py` - Publication-quality visualizations
-
-## Requirements
-
-- Python 3.7+
-- NumPy, SciPy, Pandas
-- OpenCV, Pillow
-- Matplotlib, scikit-image
-- See `TAS_experiments/requirements.txt` for complete list
-
-## Paper
-
-The paper and LaTeX materials are located in `paper/TUD_final/`.
+- **R2 evaluation:** leave-one-content-out (LOCO), preventing the same source content from appearing in both training and test folds for learned baselines.
+- **Primary metrics:** Pearson correlation coefficient (CC) and Jensen-Shannon divergence (JSD).
+- **Additional metrics:** SIM, KL divergence, AUC-Top20, entropy, centroid shift, and background attention mass.
+- **Cross-dataset evaluation:** zero-shot evaluation on pristine R1 images and the multi-distortion Interactions dataset.
 
 ## Citation
 
-If you use this code or datasets, please cite:
+If you use this repository, please cite the paper.
 
-```
-@dataset{tudelft_eye_tracking,
-  title={TUD Eye-tracking Image Quality Datasets},
-  author={TU Delft Image Quality Lab},
-  url={https://ii.tudelft.nl/iqlab/},
-  year={2023}
+Springer citation:
+
+> Chen, J., Zhang, Y. & Li, H. SC-TAS: stability-constrained task-adaptive saliency for artifact-aware attention transfer in JPEG-compressed images. *The Visual Computer* **42**, 482 (2026). https://doi.org/10.1007/s00371-026-04693-7
+
+BibTeX:
+
+```bibtex
+@article{Chen2026SCTAS,
+  author  = {Chen, Jiajun and Zhang, Ya and Li, Hongxin},
+  title   = {{SC-TAS}: Stability-Constrained Task-Adaptive Saliency for Artifact-Aware Attention Transfer in {JPEG}-Compressed Images},
+  journal = {The Visual Computer},
+  year    = {2026},
+  volume  = {42},
+  number  = {11},
+  doi     = {10.1007/s00371-026-04693-7},
+  url     = {https://doi.org/10.1007/s00371-026-04693-7}
 }
 ```
 
-## License
+## Notes on Reproducibility
 
-Please refer to the TUD Image Quality Lab for dataset licensing conditions.
+- Dataset files are not included and must be obtained from the original providers.
+- The current configuration contains a machine-specific default dataset path; update `DATA_ROOT` before execution.
+- Some legacy documentation files refer to launcher or validation scripts that are not included in the public repository. Use the existing experiment scripts listed above.
 
-## Support
+## Licence
 
-For detailed documentation on running experiments, see [TAS_experiments/README.md](TAS_experiments/README.md).
+Dataset use is governed by the original TUD Image Quality Lab terms. No separate software licence file is currently included in this repository.
