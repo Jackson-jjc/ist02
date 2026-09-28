@@ -1,5 +1,10 @@
 # SC-TAS: Stability-Constrained Task-Adaptive Saliency
 
+[![Paper](https://img.shields.io/badge/DOI-10.1007%2Fs00371--026--04693--7-0B7285)](https://doi.org/10.1007/s00371-026-04693-7)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](#installation)
+[![Tests](https://github.com/Jackson-jjc/ist02/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/Jackson-jjc/ist02/actions/workflows/smoke-test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Official implementation and reproducibility material for the CGI 2026 paper:
 
 > **SC-TAS: Stability-Constrained Task-Adaptive Saliency for Artifact-Aware Attention Transfer in JPEG-Compressed Images**
@@ -19,6 +24,7 @@ SC-TAS is a training-free method that adapts a free-viewing saliency prior towar
 ├── README.md
 ├── REPRODUCIBILITY.md
 ├── CITATION.cff
+├── LICENSE                         # MIT software licence
 ├── reference_results/               # Tabular outputs used to check reproduction
 └── TAS_experiments/
     ├── src/                          # SC-TAS, artifact maps, metrics, data loader
@@ -173,6 +179,8 @@ The deterministic SC-TAS implementation was re-run on the complete R2 dataset du
 }
 ```
 
-## Licence and data terms
+## Licence
 
-The TUD datasets are governed by the original providers' access and usage conditions. No dataset files are redistributed here. A separate software licence has not yet been specified for this repository; contact the authors before redistribution or incorporation into another project.
+Unless otherwise noted, this repository is released under the [MIT License](LICENSE). Copyright © 2026 Jiajun Chen and contributors.
+
+The licence does not alter the terms of third-party materials. The TUD datasets remain governed by the original providers' access and usage conditions, and no dataset or manuscript files are redistributed here.
